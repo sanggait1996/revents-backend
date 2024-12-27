@@ -1,23 +1,23 @@
-import { $Enums } from '@prisma/client';
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { $Enums, User } from '@prisma/client';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
-export class CreateUserDto {
+export class CreateUserDto
+  implements Omit<User, 'id' | 'createdAt' | 'updatedAt'>
+{
   @IsNotEmpty()
   @IsString()
   name: string;
 
+  @IsEmail()
   @IsNotEmpty()
-  @IsString()
-  nationality: string;
+  email: string;
 
   @IsNotEmpty()
   @IsString()
-  marialStatus: string;
+  password: string;
 
-  @IsEnum($Enums.SEX)
-  sex: $Enums.SEX;
+  @IsString()
+  photoURL: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  age: number;
+  gender: $Enums.SEX;
 }
