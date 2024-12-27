@@ -1,17 +1,25 @@
-import { Global, Module, ValidationPipe } from '@nestjs/common';
+import { Global, HttpStatus, Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import {
+  APP_FILTER,
+  APP_INTERCEPTOR,
+  APP_PIPE,
+  HttpAdapterHost,
+} from '@nestjs/core';
 import { PrismaClientExceptionFilter, PrismaModule } from 'nestjs-prisma';
 import { database, environment, port } from '../config';
 import { TransformResponseInterceptor } from './interceptors/transform-response/transform-response.interceptor';
 import { LoggerModule } from 'nestjs-pino';
+import { HashingService } from 'src/common/hashing/hashing.service';
+import { BcryptService } from 'src/common/hashing/bcrypt/bcrypt.service';
+import jwt from 'src/config/jwt';
 
 @Global()
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [environment, port, database],
+      load: [environment, port, database, jwt],
     }),
     LoggerModule.forRoot({
       pinoHttp: {
@@ -42,9 +50,20 @@ import { LoggerModule } from 'nestjs-pino';
     },
     {
       provide: APP_FILTER,
-      useValue: new PrismaClientExceptionFilter(),
+      useFactory: ({ httpAdapter }: HttpAdapterHost) => {
+        return new PrismaClientExceptionFilter(httpAdapter, {
+          P2000: HttpStatus.BAD_REQUEST,
+          P2002: HttpStatus.CONFLICT,
+          P2025: HttpStatus.NOT_FOUND,
+        });
+      },
+      inject: [HttpAdapterHost],
+    },
+    {
+      provide: HashingService,
+      useClass: BcryptService,
     },
   ],
-  exports: [],
+  exports: [HashingService],
 })
 export class CoreModule {}
