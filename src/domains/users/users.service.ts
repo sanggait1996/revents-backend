@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
-import { CreateUserDto } from './dtos/create-user-dto';
-import { UpdateUserDto } from './dtos/update-user-dto';
-import { HashingService } from 'src/common/hashing/hashing.service';
+import { CreateUserDto } from '@app/domains/users/dto/create-user-dto';
+import { UpdateUserDto } from '@app/domains/users/dto/update-user-dto';
+import { HashingService } from '@common/hashing/hashing.service';
 
 @Injectable()
 export class UsersService {

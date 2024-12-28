@@ -7,12 +7,12 @@ import {
   HttpAdapterHost,
 } from '@nestjs/core';
 import { PrismaClientExceptionFilter, PrismaModule } from 'nestjs-prisma';
-import { database, environment, port } from '../config';
-import { TransformResponseInterceptor } from './interceptors/transform-response/transform-response.interceptor';
+import { database, environment, port } from '@config/index';
+import { TransformResponseInterceptor } from '@core/interceptors/transform-response/transform-response.interceptor';
 import { LoggerModule } from 'nestjs-pino';
-import { HashingService } from 'src/common/hashing/hashing.service';
-import { BcryptService } from 'src/common/hashing/bcrypt/bcrypt.service';
-import jwt from 'src/config/jwt';
+import { HashingService } from '@common/hashing/hashing.service';
+import { BcryptService } from '@common/hashing/bcrypt/bcrypt.service';
+import jwt from '@config/jwt';
 
 @Global()
 @Module({

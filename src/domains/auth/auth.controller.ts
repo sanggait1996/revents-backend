@@ -5,11 +5,11 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { LocalAuthGuard } from './guards/local.guard';
-import { CurrentUser } from './decorators/current-user.decorator';
-import type { RequestUser } from './types/auth';
-import { Public } from './decorators/public-route.decorator';
+import { AuthService } from '@domains/auth/auth.service';
+import { LocalAuthGuard } from '@domains/auth/guards/local.guard';
+import { CurrentUser } from '@domains/auth/decorators/current-user.decorator';
+import type { RequestUser } from '@domains/auth/types/auth';
+import { Public } from '@domains/auth/decorators/public-route.decorator';
 
 @Controller('auth')
 export class AuthController {
