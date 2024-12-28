@@ -4,10 +4,10 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
-import { HashingService } from 'src/common/hashing/hashing.service';
-import type { RequestUser } from './types/auth';
+import { HashingService } from '@common/hashing/hashing.service';
+import type { RequestUser } from '@domains/auth/types/auth';
 import { JwtService } from '@nestjs/jwt';
-import type { JwtPayload } from './types/jwt';
+import type { JwtPayload } from '@domains/auth/types/jwt';
 
 @Injectable()
 export class AuthService {

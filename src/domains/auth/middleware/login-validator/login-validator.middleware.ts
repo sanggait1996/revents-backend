@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
-import { UserLoginDto } from '../../dto/login-dto';
+import { UserLoginDto } from '@domains/auth/dto/login-dto';
 import { validate } from 'class-validator';
 
 @Injectable()
