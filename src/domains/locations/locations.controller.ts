@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { LocationsService } from './locations.service';
 import { CreateLocationDto } from './dto/create-location.dto';
@@ -35,8 +36,8 @@ export class LocationsController {
     description: 'Find all locations',
   })
   @Get()
-  findAll(): Promise<LocationResponseDto[]> {
-    return this.locationsService.findAll();
+  findAll(@Query('limit') limit = 10, @Query('page') page = 1) {
+    return this.locationsService.findAll(+limit, +page);
   }
 
   @ApiOperationDecorator({

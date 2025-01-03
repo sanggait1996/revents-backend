@@ -3,10 +3,14 @@ import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { PrismaService } from 'nestjs-prisma';
 import { LocationResponseDto } from './dto/location-response.dto';
+import { PaginationService } from '@app/common/pagination/pagination.service';
 
 @Injectable()
 export class LocationsService {
-  constructor(private readonly db: PrismaService) {}
+  constructor(
+    private readonly db: PrismaService,
+    private readonly paginationService: PaginationService,
+  ) {}
 
   async create(
     createLocationDto: CreateLocationDto,
@@ -16,8 +20,17 @@ export class LocationsService {
     });
   }
 
-  async findAll(): Promise<LocationResponseDto[]> {
-    return await this.db.location.findMany({});
+  async findAll(limit: number, page: number) {
+    return this.paginationService.paginate(
+      (offset, limit) =>
+        this.db.location.findMany({
+          skip: offset,
+          take: limit,
+        }),
+      () => this.db.location.count(),
+      limit,
+      page,
+    );
   }
 
   async findOne(id: string): Promise<LocationResponseDto> {
