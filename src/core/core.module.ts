@@ -13,6 +13,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { HashingService } from '@common/hashing/hashing.service';
 import { BcryptService } from '@common/hashing/bcrypt/bcrypt.service';
 import jwt from '@config/jwt';
+import { PaginationService } from '@app/common/pagination/pagination.service';
 
 @Global()
 @Module({
@@ -63,7 +64,11 @@ import jwt from '@config/jwt';
       provide: HashingService,
       useClass: BcryptService,
     },
+    {
+      provide: PaginationService,
+      useClass: PaginationService,
+    },
   ],
-  exports: [HashingService],
+  exports: [HashingService, PaginationService],
 })
 export class CoreModule {}
