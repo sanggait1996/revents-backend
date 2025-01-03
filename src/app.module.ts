@@ -5,9 +5,10 @@ import { CoreModule } from '@core/core.module';
 import { UsersModule } from '@domains/users/users.module';
 import { AuthModule } from '@domains/auth/auth.module';
 import { LocationsModule } from './domains/locations/locations.module';
+import { CategoriesModule } from './domains/categories/categories.module';
 
 @Module({
-  imports: [CoreModule, UsersModule, AuthModule, LocationsModule],
+  imports: [CoreModule, UsersModule, AuthModule, LocationsModule, CategoriesModule],
   controllers: [AppController],
   providers: [AppService],
 })
